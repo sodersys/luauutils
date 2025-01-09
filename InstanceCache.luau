@@ -75,6 +75,4 @@ function methods.new<t>(Template: t, Amount: number, ExpansionSize: number): Ins
 	return self
 end
 
-methods.new(Instance.new("Part")):g
-
 return methods
