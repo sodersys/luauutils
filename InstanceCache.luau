@@ -5,9 +5,9 @@ local methods = {}
 export type InstanceCache<T> = {
 	new: (T: Instance) -> (InstanceCache<T>),
 	GetInstance: (self: InstanceCache<t>) -> (T),
-	ReturnInstance: (self: InstanceCache<t>, Instance: T) -> (),
+	ReturnInstance: (self: InstanceCache<T>, Instance: T) -> (),
 	Expand: (self: InstanceCache<T>) -> (),
-	DelayReturn: (self: InstanceCache<t>, Instance: T, Time: number) -> (),
+	DelayReturn: (self: InstanceCache<T>, Instance: T, Time: number) -> (),
 	
 	Template: T,
 	InUse: {T},
