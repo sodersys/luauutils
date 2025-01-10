@@ -37,7 +37,7 @@ function methods.ReturnInstance<T>(self: InstanceCache<T>, Instance: T)
 	table.insert(self.Open, Instance)
 end
 
-function methods.Expand<T>(self: InstanceCache<t>)
+function methods.Expand<T>(self: InstanceCache<T>)
 	for i = 1, self.ExpansionSize do
 		table.insert(self.Open, Instance.fromExisting(self.Template))
 	end
@@ -49,7 +49,7 @@ function methods.DelayReturn<T>(self: InstanceCache<T>, Instance: T, Time: numbe
 	end)
 end
 
-function methods.GetInstance<T>(self: InstanceCache<t>): T
+function methods.GetInstance<T>(self: InstanceCache<T>): T
 	if #self.Open == 0 then
 		self:Expand()
 	end
