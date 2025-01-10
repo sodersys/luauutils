@@ -72,6 +72,8 @@ function methods.new<T>(Template: T, Amount: number, ExpansionSize: number): Ins
 	self.Expand = methods.Expand
 	self.DelayReturn = methods.DelayReturn
 
+	self:Expand()
+	
 	return self
 end
 
