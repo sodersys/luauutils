@@ -2,21 +2,21 @@
 -- @soder / kokabiella
 local methods = {}
 
-export type InstanceCache<t> = {
-	new: (t: Instance) -> (InstanceCache<t>),
-	GetInstance: (self: InstanceCache<t>) -> (t),
-	ReturnInstance: (self: InstanceCache<t>, Instance: t) -> (),
-	Expand: (self: InstanceCache<t>) -> (),
-	DelayReturn: (self: InstanceCache<t>, Instance: t, Time: number) -> (),
+export type InstanceCache<T> = {
+	new: (T: Instance) -> (InstanceCache<T>),
+	GetInstance: (self: InstanceCache<t>) -> (T),
+	ReturnInstance: (self: InstanceCache<t>, Instance: T) -> (),
+	Expand: (self: InstanceCache<T>) -> (),
+	DelayReturn: (self: InstanceCache<t>, Instance: T, Time: number) -> (),
 	
-	Template: t,
-	InUse: {t},
-	Open: {t},
+	Template: T,
+	InUse: {T},
+	Open: {T},
 	ExpansionSize: number,
 	Type: string
 }
 
-function methods.ReturnInstance<t>(self: InstanceCache<t>, Instance: t)
+function methods.ReturnInstance<T>(self: InstanceCache<T>, Instance: T)
 	if typeof(Instance) ~= self.Type then
 		warn(`InstanceCache can only accept one type of an instance at a time. Do not return type: {typeof(Instance)} to this InstanceCache because it is incompatible with type: {self.Type}`)
 	end
@@ -37,29 +37,29 @@ function methods.ReturnInstance<t>(self: InstanceCache<t>, Instance: t)
 	table.insert(self.Open, Instance)
 end
 
-function methods.Expand<t>(self: InstanceCache<t>)
+function methods.Expand<T>(self: InstanceCache<t>)
 	for i = 1, self.ExpansionSize do
 		table.insert(self.Open, Instance.fromExisting(self.Template))
 	end
 end
 
-function methods.DelayReturn<t>(self: InstanceCache<t>, Instance: t, Time: number)
+function methods.DelayReturn<T>(self: InstanceCache<T>, Instance: T, Time: number)
 	task.delay(Time, function()
 		self:ReturnInstance(Instance)
 	end)
 end
 
-function methods.GetInstance<t>(self: InstanceCache<t>): t
+function methods.GetInstance<T>(self: InstanceCache<t>): T
 	if #self.Open == 0 then
 		self:Expand()
 	end
-	local Inst = table.remove(self.Open, 1) :: t
+	local Inst = table.remove(self.Open, 1) :: T
 	table.insert(self.InUse, Inst)
 	return Inst
 end
 
-function methods.new<t>(Template: t, Amount: number, ExpansionSize: number): InstanceCache<t>
-	local self = {} :: InstanceCache<t>
+function methods.new<T>(Template: T, Amount: number, ExpansionSize: number): InstanceCache<T>
+	local self = {} :: InstanceCache<T>
 
 	self.Template = Template
 	self.InUse = {}
